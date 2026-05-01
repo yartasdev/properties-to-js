@@ -1,0 +1,38 @@
+{
+	"name": "properties-to-js",
+	"version": "1.0.0",
+	"description": "Properties file converter to js, ts and json",
+	"keywords": [
+		"properties",
+		"json",
+		"js",
+		"ts"
+	],
+	"license": "ISC",
+	"author": "@yartasdev",
+	"type": "commonjs",
+	"main": "dist/converter.js",
+	"bin": {
+		"ptj": "./dist/index.js",
+		"properties-to-js": "./dist/index.js"
+	},
+	"scripts": {
+		"start": "tsc --watch",
+		"build": "tsc",
+		"prebuild": "rm -rf dist",
+		"test": "node --import tsx --test ./src/converter.test.ts",
+		"test:coverage": "node --import tsx --test --experimental-test-coverage ./src/converter.test.ts"
+	},
+	"dependencies": {
+		"colorette": "^2.0.20",
+		"commander": "^14.0.3",
+		"flat": "^6.0.1",
+		"prettier": "^3.8.3"
+	},
+	"devDependencies": {
+		"@types/node": "^25.6.0",
+		"@types/prettier": "^2.7.3",
+		"tsx": "^4.21.0",
+		"typescript": "^6.0.3"
+	}
+}

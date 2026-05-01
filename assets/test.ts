@@ -1,0 +1,54 @@
+export default {
+	simple: {
+		key: 'Simple Value',
+		colon: 'Value with Colon Separation',
+		space: 'Value with surrounding spaces',
+	},
+	app: {
+		server: {
+			host: 'localhost',
+			port: '8080',
+		},
+		database: {
+			client: {
+				timeout: '5000',
+				retry: 'true',
+			},
+		},
+	},
+	message: {
+		welcome: 'Welcome to the advanced properties parser test suite.',
+	},
+	'key\\': {
+		'with\\': {
+			dots: 'This key has literal dots',
+		},
+	},
+	'key=with=equals': 'This key has literal equals sign',
+	'key:with:colon': 'This key has literal colon',
+	'key with spaces': 'This key has literal spaces',
+	unicode: {
+		copyright: 'Copyright © 2026',
+		turkish: 'Hello, dğınız',
+		tab: 'Tab\tCharacter',
+	},
+	value: {
+		special: 'URL: http://localhost:3000?query=test&sort=asc',
+	},
+	empty: {
+		key: '',
+	},
+	data: {
+		count: '42',
+		pi: '3.14159',
+		active: 'true',
+		passive: 'false',
+	},
+	column: {
+		nested: 'Potential overwrite test',
+	},
+	path: {
+		windows: 'C:\\\\Users\\\\Admin\\\\Documents',
+		unix: '/usr/local/bin',
+	},
+};
