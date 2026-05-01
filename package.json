@@ -1,5 +1,5 @@
 {
-	"name": "properties-to-js",
+	"name": "@yartasdev/properties-to-js",
 	"version": "1.0.0",
 	"description": "Properties file converter to js, ts and json",
 	"keywords": [
@@ -12,14 +12,22 @@
 	"author": "@yartasdev",
 	"type": "commonjs",
 	"main": "dist/converter.js",
+	"types": "dist/converter.d.ts",
 	"bin": {
 		"ptj": "./dist/index.js",
+		"prop-to-js": "./dist/index.js",
 		"properties-to-js": "./dist/index.js"
 	},
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
 	"scripts": {
 		"start": "tsc --watch",
 		"build": "tsc",
 		"prebuild": "rm -rf dist",
+		"prepublish": "npm run test && npm run build",
 		"test": "node --import tsx --test ./src/converter.test.ts",
 		"test:coverage": "node --import tsx --test --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info"
 	},
@@ -34,5 +42,8 @@
 		"@types/prettier": "^2.7.3",
 		"tsx": "^4.21.0",
 		"typescript": "^6.0.3"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }
