@@ -2,6 +2,10 @@
 
 Convert `.properties` files to JavaScript, TypeScript, or JSON format with flexible options for key transformation and flattening.
 
+![Build Status](https://github.com/yartasdev/properties-to-js/actions/workflows/ci.yml/badge.svg)
+
+[![codecov](https://codecov.io/gh/yartasdev/properties-to-js/branch/main/graph/badge.svg?token=TOKEN_ID)](https://codecov.io/gh/yartasdev/properties-to-js)
+
 ## Features
 
 - 🔄 **Multiple Output Formats**: Convert to `.js`, `.ts`, or `.json`
