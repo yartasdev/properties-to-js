@@ -1,6 +1,6 @@
 {
 	"name": "@yartasdev/properties-to-js",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Properties file converter to js, ts and json",
 	"keywords": [
 		"properties",
