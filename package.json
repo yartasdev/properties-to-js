@@ -14,9 +14,9 @@
 	"main": "dist/converter.js",
 	"types": "dist/converter.d.ts",
 	"bin": {
-		"ptj": "./dist/index.js",
-		"prop-to-js": "./dist/index.js",
-		"properties-to-js": "./dist/index.js"
+		"@yartasdev/ptj": "./dist/index.js",
+		"@yartasdev/prop-to-js": "./dist/index.js",
+		"@yartasdev/properties-to-js": "./dist/index.js"
 	},
 	"files": [
 		"dist",
@@ -45,5 +45,13 @@
 	},
 	"publishConfig": {
 		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/yartasdev/properties-to-js.git"
+	},
+	"homepage": "https://github.com/yartasdev/properties-to-js",
+	"bugs": {
+		"url": "https://github.com/yartasdev/properties-to-js/issues"
 	}
 }
