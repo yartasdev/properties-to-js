@@ -2,6 +2,8 @@
 
 Convert `.properties` files to JavaScript, TypeScript, or JSON format with flexible options for key transformation and flattening.
 
+**Package:** [`@yartasdev/properties-to-js`](https://www.npmjs.com/package/@yartasdev/properties-to-js) · **CLI binary:** `properties-to-js`
+
 ## Features
 
 - 🔄 **Multiple Output Formats**: Convert to `.js`, `.ts`, or `.json`
@@ -13,35 +15,67 @@ Convert `.properties` files to JavaScript, TypeScript, or JSON format with flexi
 
 ## Installation
 
+Global install:
+
 ```bash
-npm install -g properties-to-js
+npm install -g @yartasdev/properties-to-js
 ```
 
-Or locally:
+Project dependency:
 
 ```bash
-npm install properties-to-js
+npm install @yartasdev/properties-to-js
 ```
 
 ## Usage
 
-### Command Line
+### Command line
+
+After a global install, use the `properties-to-js` binary:
 
 ```bash
 # Basic usage - output to JavaScript
-ptj -i input.properties -o output.js
+properties-to-js -i input.properties -o output.js
 
 # Output to TypeScript
-ptj -i input.properties -o output.ts
+properties-to-js -i input.properties -o output.ts
 
 # Output to JSON
-ptj -i input.properties -o output.json
+properties-to-js -i input.properties -o output.json
 
 # With options
-ptj -i input.properties -o output.js --uppercase --flatted -d "_"
+properties-to-js -i input.properties -o output.js --uppercase --flatted -d "_"
 ```
 
-#### CLI Options
+### Run with npx (no install)
+
+You can run the CLI without installing the package globally. `npx` downloads and executes the published package; use the scoped name `@yartasdev/properties-to-js`:
+
+```bash
+npx @yartasdev/properties-to-js -i input.properties -o output.js
+```
+
+More examples:
+
+```bash
+npx @yartasdev/properties-to-js -i input.properties -o output.ts
+npx @yartasdev/properties-to-js -i input.properties -o output.json
+npx @yartasdev/properties-to-js -i input.properties -o output.js --uppercase --flatted -d "_"
+```
+
+If your shell forwards flags incorrectly, put `--` before the CLI arguments:
+
+```bash
+npx @yartasdev/properties-to-js -- -i input.properties -o output.js
+```
+
+When the package is installed locally, you can also use `npx` from the project root (same binary name):
+
+```bash
+npx properties-to-js -i input.properties -o output.js
+```
+
+#### CLI options
 
 | Option | Short | Description | Default |
 |--------|-------|-------------|---------|
@@ -52,10 +86,10 @@ ptj -i input.properties -o output.js --uppercase --flatted -d "_"
 | `--uppercase` | `-u` | Convert all keys to uppercase | `false` |
 | `--lowercase` | `-l` | Convert all keys to lowercase | `false` |
 
-### Programmatic Usage
+### Programmatic usage
 
 ```typescript
-import { Converter } from 'properties-to-js';
+import { Converter } from '@yartasdev/properties-to-js';
 
 const options = {
   input: 'config.properties',
@@ -72,6 +106,7 @@ await Converter.convert(options);
 ## Examples
 
 ### Input (config.properties)
+
 ```properties
 # Application Configuration
 app.name=MyApp
@@ -85,6 +120,7 @@ database.name=mydb
 ```
 
 ### Output (default - nested structure)
+
 ```javascript
 {
   app: {
@@ -101,6 +137,7 @@ database.name=mydb
 ```
 
 ### Output (with `--flatted --delimiter="_"`)
+
 ```javascript
 {
   app_name: 'MyApp',
@@ -113,6 +150,7 @@ database.name=mydb
 ```
 
 ### Output (with `--uppercase`)
+
 ```javascript
 {
   APP: {
@@ -131,24 +169,35 @@ database.name=mydb
 ## Development
 
 ### Build
+
 ```bash
 npm run build
 ```
 
-### Watch Mode (during development)
+### Watch mode (TypeScript)
+
 ```bash
 npm run start
 ```
 
-### Test Locally
+### Tests
+
 ```bash
-npm link
-ptj -i test.properties -o test.js
+npm test
+npm run test:coverage
 ```
 
-## Properties File Format
+### Test the CLI locally
+
+```bash
+npm link
+properties-to-js -i test.properties -o test.js
+```
+
+## Properties file format
 
 Supports standard Java `.properties` format:
+
 - Comments: Lines starting with `#` or `!`
 - Key-value pairs: `key=value` or `key:value`
 - Multiline values: Use `\` at end of line

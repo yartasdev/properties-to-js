@@ -1,6 +1,6 @@
 {
 	"name": "@yartasdev/properties-to-js",
-	"version": "1.0.3",
+	"version": "1.0.2",
 	"description": "Properties file converter to js, ts and json",
 	"keywords": [
 		"properties",
@@ -14,9 +14,7 @@
 	"main": "dist/converter.js",
 	"types": "dist/converter.d.ts",
 	"bin": {
-		"@yartasdev/ptj": "./dist/index.js",
-		"@yartasdev/prop-to-js": "./dist/index.js",
-		"@yartasdev/properties-to-js": "./dist/index.js"
+		"properties-to-js": "./dist/index.js"
 	},
 	"files": [
 		"dist",
