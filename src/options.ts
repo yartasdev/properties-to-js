@@ -1,10 +1,19 @@
 export interface Options {
-	input: string;
-	output: string;
 	flatted?: boolean;
 	delimiter?: string;
 	uppercase?: boolean;
 	lowercase?: boolean;
+  type: 'json' | 'ts' | 'js';
+}
+
+export interface OptionsForContent extends Omit<Options, 'input' | 'output'> {
+  content: string;
+  result: string;
+}
+
+export interface OptionsForFile extends Omit<Options, 'input' | 'output'> {
+  input: string;
+  output: string;
 }
 
 export type JsonValue = 

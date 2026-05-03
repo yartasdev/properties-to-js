@@ -9,6 +9,7 @@ program.description('A CLI tool to convert .properties files to JavaScript objec
 program.version('1.0.0');
 program.requiredOption('-i, --input <path>', 'Path to the .properties file');
 program.requiredOption('-o, --output <path>', 'Path to the output file, including extension (.js, .ts, .json) E.g.: output.js or output.ts or output.json');
+program.option('-t, --type <type>', 'Output type: json, ts, js', 'json');
 program.option('-d, --delimiter <delimiter>', 'Delimiter for flattening nested keys', '.');
 program.option('-f, --flatted', 'Flatted nested keys into a single level with delimiter notation', false);
 program.option('-u, --uppercase', 'Convert all keys to uppercase', false);
@@ -16,4 +17,4 @@ program.option('-l, --lowercase', 'Convert all keys to lowercase', false);
 
 program.parse();
 
-Converter.convert(program.opts());
+Converter.convertForFile(program.opts());

@@ -1,8 +1,8 @@
 import { green } from 'colorette';
-import { extname, join } from 'path';
+import { extname, join, parse } from 'path';
 import { flatten, unflatten } from 'flat';
 import { readFileSync, writeFileSync } from 'fs';
-import { JsonObject, Options } from './options';
+import { JsonObject, Options, OptionsForContent, OptionsForFile } from './options';
 import { Options as PrettierOptions, format } from 'prettier';
 
 export class Converter {
@@ -20,11 +20,17 @@ export class Converter {
 		useTabs: true,
 	};
 
-	public static async convert(options: Options): Promise<void> {
+	public static async convertForFile(options: OptionsForFile): Promise<void> {
 		const content = this.read(options.input);
 		const data = this.parse(content);
 		const json = this.process(data, options);
 		await this.save(json, options);
+	}
+
+	public static async convertForContent(options: OptionsForContent): Promise<string> {
+		const data = this.parse(options.content);
+		const json = this.process(data, options);
+		return await this.format(json, options);
 	}
 
 	private static parse(content: string): JsonObject {
@@ -50,7 +56,6 @@ export class Converter {
 
 	private static process(data: JsonObject, options: Options): JsonObject {
 		const { uppercase, lowercase, flatted, delimiter } = options;
-
 		if (flatted) {
 			return flatten(unflatten(data), { delimiter, transformKey: key => (uppercase ? key.toUpperCase() : lowercase ? key.toLowerCase() : key) });
 		}
@@ -79,55 +84,56 @@ export class Converter {
 		}
 	}
 
-	private static async save(data: JsonObject, options: Options): Promise<void> {
+	private static async save(data: JsonObject, options: OptionsForFile): Promise<void> {
 		const { output } = options;
-
 		try {
-			const extension = extname(output).toLowerCase();
+			const result = await this.format(data, options);
 
-			switch (extension) {
-				case '.ts':
-					await this.toTypeScript(data, output);
-					break;
-				case '.js':
-					await this.toJavaScript(data, output);
-					break;
-				case '.json':
-					await this.toJSON(data, output);
-					break;
-				default:
-					throw new Error(`Unsupported output type: ${extension}`);
-			}
-			console.log(green(`File saved successfully: ${output}`));
+			const { ext } = parse(output);
+
+			if (ext !== `.${options.type}`) throw new Error(`Unsupported output type: ${ext}`);
+
+			writeFileSync(join(process.cwd(), output), result);
+			console.log(green(`Output file created successfully: ${output}`));
 		} catch (error) {
 			throw new Error(`Error while saving file: ${(error as Error).message}`);
 		}
 	}
 
-	private static async toTypeScript(data: JsonObject, output: string): Promise<void> {
+	private static async format(data: JsonObject, options: Options): Promise<string> {
+		switch (options.type) {
+			case 'ts':
+				return await this.toTypeScript(data);
+			case 'js':
+				return await this.toJavaScript(data);
+			case 'json':
+				return await this.toJSON(data);
+			default:
+				throw new Error(`Unsupported format: ${options.type}`);
+		}
+	}
+
+	private static async toTypeScript(data: JsonObject): Promise<string> {
 		const content = `export default ${JSON.stringify(data, null, 2)};\n`;
-		const formatted = await format(content, {
+		return await format(content, {
 			parser: 'typescript',
 			...Converter.PRETTIER_OPTIONS,
 		});
-		writeFileSync(join(process.cwd(), output), formatted);
 	}
 
-	private static async toJavaScript(data: JsonObject, output: string): Promise<void> {
+	private static async toJavaScript(data: JsonObject): Promise<string> {
 		const content = `module.exports = ${JSON.stringify(data, null, 2)};\n`;
-		const formatted = await format(content, {
+		return await format(content, {
 			parser: 'babel',
 			...Converter.PRETTIER_OPTIONS,
 		});
-		writeFileSync(join(process.cwd(), output), formatted);
 	}
 
-	private static async toJSON(data: JsonObject, output: string): Promise<void> {
+	private static async toJSON(data: JsonObject): Promise<string> {
 		const content = JSON.stringify(data, null, 2);
-		const formatted = await format(content, {
+		return await format(content, {
 			parser: 'json',
 			...Converter.PRETTIER_OPTIONS,
 		});
-		writeFileSync(join(process.cwd(), output), formatted);
 	}
 }
