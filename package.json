@@ -1,55 +1,59 @@
 {
-	"name": "@yartasdev/properties-to-js",
-	"version": "2.0.0",
-	"description": "Properties file converter to js, ts and json",
-	"keywords": [
-		"properties",
-		"json",
-		"js",
-		"ts"
-	],
-	"license": "ISC",
-	"author": "@yartasdev",
-	"type": "commonjs",
-	"main": "dist/converter.js",
-	"types": "dist/converter.d.ts",
-	"bin": {
-		"properties-to-js": "./dist/index.js"
-	},
-	"files": [
-		"dist",
-		"README.md",
-		"LICENSE"
-	],
-	"scripts": {
-		"start": "tsc --watch",
-		"build": "tsc",
-		"prebuild": "rm -rf dist",
-		"prepublish": "npm run test && npm run build",
-		"test": "node --import tsx --test ./src/converter.test.ts",
-		"test:coverage": "node --import tsx --test --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info"
-	},
-	"dependencies": {
-		"colorette": "^2.0.20",
-		"commander": "^14.0.3",
-		"flat": "^6.0.1",
-		"prettier": "^3.8.3"
-	},
-	"devDependencies": {
-		"@types/node": "^25.6.0",
-		"@types/prettier": "^2.7.3",
-		"tsx": "^4.21.0",
-		"typescript": "^6.0.3"
-	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/yartasdev/properties-to-js.git"
-	},
-	"homepage": "https://github.com/yartasdev/properties-to-js",
-	"bugs": {
-		"url": "https://github.com/yartasdev/properties-to-js/issues"
-	}
+  "name": "@yartasdev/properties-to-js",
+  "version": "2.0.0",
+  "description": "Properties file converter to js, ts and json",
+  "keywords": [
+    "properties",
+    "json",
+    "js",
+    "ts"
+  ],
+  "license": "ISC",
+  "author": "@yartasdev",
+  "type": "commonjs",
+  "main": "dist/converter.js",
+  "types": "dist/converter.d.ts",
+  "bin": {
+    "properties-to-js": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "tsc --watch",
+    "build": "tsc",
+    "prebuild": "rm -rf dist",
+    "prepublish": "npm run test && npm run build",
+    "test": "node --import tsx --test ./src/converter.test.ts",
+    "test:coverage": "node --import tsx --test --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info ./src/converter.test.ts",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "dependencies": {
+    "colorette": "^2.0.20",
+    "commander": "^14.0.3",
+    "flat": "^6.0.1",
+    "prettier": "^3.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@types/prettier": "^2.7.3",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "vitepress": "^2.0.0-alpha.17"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yartasdev/properties-to-js.git"
+  },
+  "homepage": "https://github.com/yartasdev/properties-to-js",
+  "bugs": {
+    "url": "https://github.com/yartasdev/properties-to-js/issues"
+  }
 }

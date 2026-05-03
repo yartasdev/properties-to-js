@@ -8,7 +8,6 @@ export interface Options {
 
 export interface OptionsForContent extends Omit<Options, 'input' | 'output'> {
   content: string;
-  result: string;
 }
 
 export interface OptionsForFile extends Omit<Options, 'input' | 'output'> {

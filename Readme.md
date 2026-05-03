@@ -34,17 +34,17 @@ npm install @yartasdev/properties-to-js
 After a global install, use the `properties-to-js` binary:
 
 ```bash
-# Basic usage - output to JavaScript
-properties-to-js -i input.properties -o output.js
+# Basic usage — output type must match file extension (-t defaults to json)
+properties-to-js -i input.properties -o output.js -t js
 
-# Output to TypeScript
-properties-to-js -i input.properties -o output.ts
+# TypeScript
+properties-to-js -i input.properties -o output.ts -t ts
 
-# Output to JSON
+# JSON (extension .json matches default -t json)
 properties-to-js -i input.properties -o output.json
 
-# With options
-properties-to-js -i input.properties -o output.js --uppercase --flatted -d "_"
+# With options (still set -t to match the output extension)
+properties-to-js -i input.properties -o output.js -t js --uppercase --flatted -d "_"
 ```
 
 ### Run with npx (no install)
@@ -52,27 +52,27 @@ properties-to-js -i input.properties -o output.js --uppercase --flatted -d "_"
 You can run the CLI without installing the package globally. `npx` downloads and executes the published package; use the scoped name `@yartasdev/properties-to-js`:
 
 ```bash
-npx @yartasdev/properties-to-js -i input.properties -o output.js
+npx @yartasdev/properties-to-js -i input.properties -o output.js -t js
 ```
 
 More examples:
 
 ```bash
-npx @yartasdev/properties-to-js -i input.properties -o output.ts
+npx @yartasdev/properties-to-js -i input.properties -o output.ts -t ts
 npx @yartasdev/properties-to-js -i input.properties -o output.json
-npx @yartasdev/properties-to-js -i input.properties -o output.js --uppercase --flatted -d "_"
+npx @yartasdev/properties-to-js -i input.properties -o output.js -t js --uppercase --flatted -d "_"
 ```
 
 If your shell forwards flags incorrectly, put `--` before the CLI arguments:
 
 ```bash
-npx @yartasdev/properties-to-js -- -i input.properties -o output.js
+npx @yartasdev/properties-to-js -- -i input.properties -o output.js -t js
 ```
 
 When the package is installed locally, you can also use `npx` from the project root (same binary name):
 
 ```bash
-npx properties-to-js -i input.properties -o output.js
+npx properties-to-js -i input.properties -o output.js -t js
 ```
 
 #### CLI options
@@ -81,6 +81,7 @@ npx properties-to-js -i input.properties -o output.js
 |--------|-------|-------------|---------|
 | `--input` | `-i` | Path to the `.properties` file | **Required** |
 | `--output` | `-o` | Path to the output file (must include extension) | **Required** |
+| `--type` | `-t` | Output format: `json`, `js`, or `ts` (must match file extension) | `json` |
 | `--delimiter` | `-d` | Delimiter for flattened keys | `.` |
 | `--flatted` | `-f` | Flatten nested keys into a single level | `false` |
 | `--uppercase` | `-u` | Convert all keys to uppercase | `false` |
@@ -88,20 +89,49 @@ npx properties-to-js -i input.properties -o output.js
 
 ### Programmatic usage
 
+#### `convertForFile` — read a file, write a file
+
+Paths are resolved relative to `process.cwd()`. The output file extension must match `type` (e.g. `type: 'js'` → `*.js`).
+
 ```typescript
 import { Converter } from '@yartasdev/properties-to-js';
 
-const options = {
+await Converter.convertForFile({
   input: 'config.properties',
   output: 'config.js',
+  type: 'js',
   flatted: false,
   uppercase: false,
   lowercase: false,
   delimiter: '.',
-};
-
-await Converter.convert(options);
+});
 ```
+
+#### `convertForContent` — string in, string out
+
+Use this when you already have `.properties` text (e.g. from an HTTP body or in-memory config). It does not read or write the filesystem; it returns the formatted module or JSON string (via Prettier), same as the file APIs.
+
+```typescript
+import { Converter } from '@yartasdev/properties-to-js';
+
+const propertiesSource = `
+app.name=Demo
+app.port=3000
+`;
+
+const tsModule = await Converter.convertForContent({
+  content: propertiesSource,
+  type: 'ts',
+  flatted: false,
+  delimiter: '.',
+  uppercase: false,
+  lowercase: false,
+});
+
+// tsModule is a string like: export default { ... };
+```
+
+Optional fields match the CLI: `flatted`, `delimiter`, `uppercase`, `lowercase`. `type` is required and must be `'json'`, `'js'`, or `'ts'`.
 
 ## Examples
 
@@ -191,7 +221,13 @@ npm run test:coverage
 
 ```bash
 npm link
-properties-to-js -i test.properties -o test.js
+properties-to-js -i test.properties -o test.js -t js
+```
+
+### Documentation site
+
+```bash
+npm run docs:dev
 ```
 
 ## Properties file format

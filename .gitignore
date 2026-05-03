@@ -35,6 +35,10 @@ coverage/
 .eslintcache
 .cache/
 
+# VitePress (local / CI build output)
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
 # Misc
 .turbo/
 .pnpm-debug.log

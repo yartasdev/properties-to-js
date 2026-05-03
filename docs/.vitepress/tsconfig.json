@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"strict": true,
+		"jsx": "preserve",
+		"lib": ["ES2022", "DOM"],
+		"skipLibCheck": true,
+		"noEmit": true,
+		"resolveJsonModule": true,
+		"types": ["vitepress/client", "node"]
+	},
+	"include": ["./**/*.ts", "./**/*.vue", "./**/*.mts", "env.d.ts", "utils/**/*.ts"]
+}
